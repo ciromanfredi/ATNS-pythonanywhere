@@ -48,7 +48,7 @@ class User(UserMixin,db.Model):
     confirmed_at = db.Column(db.DateTime())
     citta = db.Column(db.String(256))
     telefono = db.Column(db.String(256))
-    url_image = db.Column(db.String(256))
+    url_image = db.Column(db.String(256), default="https://firebasestorage.googleapis.com/v0/b/atns-a5a13.appspot.com/o/no-avatar.png?alt=media&token=c4a6e3c9-8834-4cfa-a848-28f578627636")
 
     eventi_partecipo = db.relationship("Event",
                 secondary=partecipa,

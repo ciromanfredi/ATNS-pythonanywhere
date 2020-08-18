@@ -52,23 +52,23 @@ def create_app(config_name):
     #print('config_name: ',config_name)
     #print(app_config[config_name])
     #print(app.config)
-    
+
     # For email
-    app.config['MAIL_SERVER'] = 'studenti.unina.it'
-    app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USE_SSL'] = True
-    app.config['MAIL_USERNAME'] = 'cir.manfredi'
-    app.config['MAIL_PASSWORD'] = '****'
-    #app.config['MAIL_DEFAULT_SENDER'] = 
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = '12fallisco34@gmail.com'
+    app.config['MAIL_PASSWORD'] = '56Fallisco'
+    #app.config['MAIL_DEFAULT_SENDER'] =
     mail.init_app(app)
 
     # For security
     app.config['SECURITY_RECOVERABLE'] = True
-    app.config['SECURITY_CONFIRMABLE'] = True	
+    app.config['SECURITY_CONFIRMABLE'] = True
     app.config['SECURITY_CHANGEABLE'] = True
     app.config['SECURITY_REGISTERABLE'] = True
     app.config['SECURITY_PASSWORD_SALT'] = 'some arbitrary super secret string'
-    app.config['SECURITY_EMAIL_SENDER'] = 'cir.manfredi@studenti.unina.it'
+    app.config['SECURITY_EMAIL_SENDER'] = '12fallisco34@gmail.com'
 
     app.config['WTF_CSRF_ENABLED'] = False
 
