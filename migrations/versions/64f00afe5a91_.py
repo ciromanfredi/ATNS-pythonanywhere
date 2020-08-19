@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e0059fa95a84
+Revision ID: 64f00afe5a91
 Revises: 
-Create Date: 2020-07-28 14:36:35.364842
+Create Date: 2020-08-19 10:37:18.244724
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e0059fa95a84'
+revision = '64f00afe5a91'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,6 +36,7 @@ def upgrade():
     sa.Column('confirmed_at', sa.DateTime(), nullable=True),
     sa.Column('citta', sa.String(length=256), nullable=True),
     sa.Column('telefono', sa.String(length=256), nullable=True),
+    sa.Column('url_image', sa.String(length=256), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
@@ -47,6 +48,8 @@ def upgrade():
     sa.Column('numbersplayer', sa.Integer(), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('sport', sa.String(length=255), nullable=False),
+    sa.Column('latitudine', sa.String(length=255), nullable=True),
+    sa.Column('longitudine', sa.String(length=255), nullable=True),
     sa.Column('id_proprietario', sa.Integer(), nullable=True),
     sa.Column('date_created', sa.DateTime(), nullable=True),
     sa.Column('date_modified', sa.DateTime(), nullable=True),

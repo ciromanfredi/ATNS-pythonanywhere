@@ -63,7 +63,16 @@ def _get_unauthorized_view():
 
 
 def _check_token():
+    print('Flask security - decorators - _check_token')
+    print('request',request)
+    #help(request.__str__)
+    #help(_security.login_manager)
+    print(request.headers)
+    #print('ha l\'attributo _request_callback',hasattr(_security.login_manager, "_request_callback"))
+    #print('ha l\'attributo request_callback',hasattr(_security.login_manager, "request_callback"))
     user = _security.login_manager._request_callback(request)
+
+    print('user',user,'is_authenticated',user.is_authenticated)
 
     if user and user.is_authenticated:
         app = current_app._get_current_object()
@@ -105,6 +114,7 @@ def http_auth_required(realm):
                 r = _security.default_http_auth_realm \
                     if callable(realm) else realm
                 h = {'WWW-Authenticate': 'Basic realm="%s"' % r}
+                print('Flask security - decorators - http_auth_required')
                 return _get_unauthorized_response(headers=h)
         return wrapper
 
@@ -128,6 +138,7 @@ def auth_token_required(fn):
         if _security._unauthorized_callback:
             return _security._unauthorized_callback()
         else:
+            print('Flask security - decorators - auth_token_required')
             return _get_unauthorized_response()
     return decorated
 
@@ -156,8 +167,11 @@ def auth_required(*auth_methods):
             h = {}
             mechanisms = [(method, login_mechanisms.get(method))
                           for method in auth_methods]
+            print('mechanisms',mechanisms)
             for method, mechanism in mechanisms:
+                print('method',method,'mechanism',mechanism())
                 if mechanism and mechanism():
+                    print('decoo',*args,**kwargs)
                     return fn(*args, **kwargs)
                 elif method == 'basic':
                     r = _security.default_http_auth_realm
@@ -165,6 +179,7 @@ def auth_required(*auth_methods):
             if _security._unauthorized_callback:
                 return _security._unauthorized_callback()
             else:
+                print('Flask security - decorators - auth_required')
                 return _get_unauthorized_response(headers=h)
         return decorated_view
     return wrapper

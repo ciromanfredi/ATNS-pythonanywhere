@@ -4,7 +4,7 @@ from flask_api import FlaskAPI
 from flask_sqlalchemy import SQLAlchemy
 
 # local import
-from instance.config import app_config
+#from instance.config import app_config
 
 #
 from flask import request, jsonify, abort, make_response,current_app, g
@@ -48,10 +48,17 @@ class CustomSessionInterface(SecureCookieSessionInterface):
 
 def create_app(config_name):
     app = FlaskAPI(__name__, instance_relative_config=True)
-    app.config.from_object(app_config[config_name])
-    app.config.from_pyfile('config.py')
+    #app.config.from_object(app_config[config_name])
+    #app.config.from_pyfile('config.py')
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+    #per farlo funzionare su pythoneverywhere...
+    app.config['DEBUG'] = True
+    app.config['TESTING'] = False
+    #app.config['CSRF_ENABLED'] = True
+    app.config['SECRET_KEY'] = "a-long-string-of-random-characters-CHANGE-TO-YOUR-LIKING"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://ciromanfredi96:cirociro@ciromanfredi96.mysql.pythonanywhere-services.com/ciromanfredi96$atns"
 
     # For email
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -81,13 +88,13 @@ def create_app(config_name):
     security.init_app(app, user_datastore)
     cors = CORS(app)
 
-        
+
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
         print('app - init - load_user')
         return User.query.get(int(user_id))
-    
+
     # import the authentication blueprint and register it on the app
 
     from .event import event_blueprint
