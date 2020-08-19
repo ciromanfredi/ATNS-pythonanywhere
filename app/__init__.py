@@ -12,6 +12,10 @@ from flask.sessions import SecureCookieSessionInterface
 #
 from flask_login import LoginManager, user_loaded_from_header
 from flask_mail import Mail
+
+import os
+import sys
+sys.path.append(os.getcwd())
 from flask_security import Security, SQLAlchemyUserDatastore
 
 from flask_cors import CORS, cross_origin
@@ -49,10 +53,6 @@ def create_app(config_name):
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-    #print('config_name: ',config_name)
-    #print(app_config[config_name])
-    #print(app.config)
-
     # For email
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
@@ -87,7 +87,6 @@ def create_app(config_name):
         # since the user_id is just the primary key of our user table, use it in the query for the user
         print('app - init - load_user')
         return User.query.get(int(user_id))
-
     
     # import the authentication blueprint and register it on the app
 
@@ -98,4 +97,3 @@ def create_app(config_name):
     app.register_blueprint(profile_blueprint)
 
     return app
-
